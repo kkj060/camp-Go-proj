@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>camp데이터 전부</title>
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.7.1/jquery.min.js"
+        integrity="sha512-v2CJ7UaYy4JwqLDIrZUI/4hqeoQieOmAZNXBeQyjo21dadnwR+8ZaIJVT8EE2iyI61OV8e6M8PP2/4hpQINQ/g=="
+        crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+
+</head>
+<!-- 04_모든 데이터 가져오기 활용해서 캠프데이터 불러오기 -->
+<body>
+    <button id="reqBtn">모든 데이터 요청 시작</button>
+    <div id="monitor"></div>
+
+    <script>
+        let v_monitor = document.getElementById('monitor');
+
+        let pageNo = 1;
+        let v_array = [];
+
+        document.getElementById('reqBtn').addEventListener('click', () => {
+            f_reqData();
+        });
+
+        function f_reqData(){
+            let v_url = "http://apis.data.go.kr/B551011/GoCamping/basedList"
+            let v_query = "?serviceKey=LmlaUQqaUwhETwW9ymAS88gPkve1eSMz5XIA8Po296EdpbwXjssJRYwkZoTbj0aJ63w2O9lQtBapEGL50ictzg%3D%3D"
+            v_query += "&numOfRows=10&_type=json"
+            v_query += "&MobileOS=ETC&MobileApp=TestApp&pageNo=" + pageNo;
+
+            $.ajax({
+                url: v_url + v_query,
+                method: 'GET',
+                success: function (response) {
+                    console.log(response);
+                    console.log(response['response']);
+                    console.log(response['response']['body']);
+                    console.log(response['response']['body']['items']);
+
+                    // body 안에 items 가 존재하면 데이터 저장 후 다음 요청 계속
+                    if (response['response']['body']['items']['item']) {
+                        let v_items = response['response']['body']['items']['item'];
+                        for (let item of v_items) {
+                            v_array.push(item);
+                        }
+
+                        v_monitor.innerHTML += '<p>' + pageNo + '</p>';
+                        pageNo++;
+                        f_reqData();
+                    } else {
+                        // 데이터 더이상 없음 (요청 그만하고 확보한 데이터 저장)
+                        console.log(v_array);
+                        console.log(JSON.stringify(v_array));
+                        console.log(JSON.stringify(v_array).length);
+                        localStorage.setItem('facltNm', JSON.stringify(v_array));
+                    }
+
+                }
+            });
+        }
+
+
+
+
+
+    </script>
+</body>
+
+</html>

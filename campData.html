@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    <div id="printRst"></div>
+    <button id="reqBtn">데이터 요청</button>
+
+    <script>
+
+        document.getElementById('reqBtn').addEventListener('click', ()=>{
+            // AJAX 통신 객체 생성
+            let v_ajax = new XMLHttpRequest();
+            
+            // 요청 주소 세팅
+            let v_url = 'http://apis.data.go.kr/B551011/GoCamping/basedList';
+            let v_query = "?serviceKey=LmlaUQqaUwhETwW9ymAS88gPkve1eSMz5XIA8Po296EdpbwXjssJRYwkZoTbj0aJ63w2O9lQtBapEGL50ictzg%3D%3D";
+                v_query += "&MobileOS=ETC&MobileApp=TestApp&pageNo=1&numOfRows=100&_type=json"; 
+
+            // .open(방식, 요청주소)
+            v_ajax.open("GET", v_url + v_query);
+
+            // AJAX 통신 요청 후 응답이 오면 실행
+            v_ajax.onload = ()=>{
+                // 응답으로 온 데이터 (메인 쓰레드가 실행)
+                console.log(v_ajax.response); // JSON string 으로 옴
+
+                // JSON string -> JSON 객체로 변환
+                let v_json = JSON.parse(v_ajax.response);
+
+                console.log(v_json);
+                
+            };
+
+            // AJAX 통신 요청 (메인 쓰레드가 외부 쓰레드에게 통신하라고 시킴)
+            v_ajax.send();
+            console.log("통신 요청 했음");
+        });
+
+        // localStorage.clear();
+
+    </script>
+</body>
+</html>
