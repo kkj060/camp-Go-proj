@@ -12,6 +12,7 @@
 
 </head>
 <!-- 04_모든 데이터 가져오기 활용해서 캠프데이터 불러오기 -->
+
 <body>
     <button id="reqBtn">모든 데이터 요청 시작</button>
     <div id="monitor"></div>
@@ -22,11 +23,11 @@
         let pageNo = 1;
         let v_array = [];
 
-        document.getElementById('reqBtn').addEventListener('click', () => {
-            f_reqData();
-        });
+        $(window).load(function () {
+            f_reqData;
+        })
 
-        function f_reqData(){
+        function f_reqData() {
             let v_url = "http://apis.data.go.kr/B551011/GoCamping/basedList"
             let v_query = "?serviceKey=LmlaUQqaUwhETwW9ymAS88gPkve1eSMz5XIA8Po296EdpbwXjssJRYwkZoTbj0aJ63w2O9lQtBapEGL50ictzg%3D%3D"
             v_query += "&numOfRows=10&_type=json"
