@@ -13,7 +13,7 @@ div {
     justify-content: space-between;
     position: fixed;
     background-color: white;
-    z-index: 2;
+    z-index: 1000;
 }
 
 .logo {
@@ -136,23 +136,28 @@ div {
 
 .main-search-box{
     display: flex;
-
     align-items: center;
     position: absolute;
     background-color: #A1C652;
     border-radius: 30px;
     border: 1px solid rgb(255, 214, 32);
-
     width: 600px;
     height: 300px;
     left: 50%;
     top: 500px;
     transform: translate(-50%,0);
+    flex-direction: column;
+    justify-content: center;
+}
+.search-box{
+    display: flex;
+    align-items: center;
 }
 
-.main-search-box > img{
+#imaTag{
     display: flex;
     width: 40px;
+
 }
 
 .main-search-box > p{
